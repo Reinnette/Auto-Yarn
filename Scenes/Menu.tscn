@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc65fh2hrybhv"]
+
+[ext_resource type="Script" path="res://Scripts/ViewModels/Shop.gd" id="2_f3ea2"]
+[ext_resource type="Script" path="res://Scripts/ViewModels/Settings.gd" id="3_u5gna"]
+
+[node name="Menu" type="Node2D"]
+
+[node name="Footer" type="HBoxContainer" parent="."]
+z_index = 1
+offset_top = 905.0
+offset_right = 191.0
+offset_bottom = 945.0
+scale = Vector2(3, 3)
+
+[node name="Shop" type="Button" parent="Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Shop
+"
+script = ExtResource("2_f3ea2")
+
+[node name="Header" type="HBoxContainer" parent="."]
+offset_right = 576.0
+offset_bottom = 40.0
+
+[node name="BR5" type="ColorRect" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.03
+color = Color(0, 0, 0, 1)
+
+[node name="Name" type="Label" parent="Header"]
+layout_mode = 2
+text = "Yarn Clicker"
+
+[node name="BR" type="ColorRect" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.03
+color = Color(0, 0, 0, 1)
+
+[node name="Level" type="Label" parent="Header"]
+layout_mode = 2
+text = "Level: XXX"
+
+[node name="BR2" type="ColorRect" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.03
+color = Color(0, 0, 0, 1)
+
+[node name="Currency" type="Label" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Yarn: XXXX
+"
+
+[node name="BR3" type="ColorRect" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.03
+color = Color(0, 0, 0, 1)
+
+[node name="Yarn Soul" type="Label" parent="Header"]
+layout_mode = 2
+text = "Yarn Soul: XXXX"
+
+[node name="BR4" type="ColorRect" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.03
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_top = 41.0
+offset_right = 576.0
+offset_bottom = 48.0
+color = Color(0, 0, 0, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 498.0
+offset_top = 59.0
+offset_right = 558.0
+offset_bottom = 119.0
+grow_horizontal = 0
+
+[node name="Settings" type="Button" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "*"
+script = ExtResource("3_u5gna")

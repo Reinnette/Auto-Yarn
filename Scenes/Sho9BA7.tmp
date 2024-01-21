@@ -1,0 +1,144 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn37kxinbcbli"]
+
+[ext_resource type="Script" path="res://Scripts/ViewModels/ShopView.gd" id="1_8a47o"]
+[ext_resource type="PackedScene" uid="uid://dbnxp1fwqmss0" path="res://upgrade.tscn" id="2_dysxx"]
+
+[node name="Shop" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [2.0]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 580.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+localize_numeral_system = false
+metadata/_edit_use_anchors_ = true
+
+[node name="UpgradeTypes" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 4.56
+anchor_right = 1.0
+anchor_bottom = 5.38
+offset_top = -3.05176e-05
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Clickers" type="Button" parent="Control/UpgradeTypes"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Clickers"
+
+[node name="Upgrades" type="Button" parent="Control/UpgradeTypes"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrades"
+
+[node name="Mods" type="Button" parent="Control/UpgradeTypes"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Modifications"
+
+[node name="ListOfUpgrades" type="Control" parent="Control"]
+layout_mode = 1
+anchor_top = 5.38
+anchor_right = 1.0
+anchor_bottom = 9.038
+offset_bottom = 0.200012
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8a47o")
+
+[node name="Clickers" type="ScrollContainer" parent="Control/ListOfUpgrades"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="Container" type="VBoxContainer" parent="Control/ListOfUpgrades/Clickers"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Upgrade" parent="Control/ListOfUpgrades/Clickers/Container" instance=ExtResource("2_dysxx")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Enhancement" type="ScrollContainer" parent="Control/ListOfUpgrades"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="VBoxContainer" parent="Control/ListOfUpgrades/Enhancement"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Upgrade" parent="Control/ListOfUpgrades/Enhancement/Container" instance=ExtResource("2_dysxx")]
+visible = false
+layout_mode = 2
+
+[node name="Mods" type="ScrollContainer" parent="Control/ListOfUpgrades"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="VBoxContainer" parent="Control/ListOfUpgrades/Mods"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Upgrade" parent="Control/ListOfUpgrades/Mods/Container" instance=ExtResource("2_dysxx")]
+visible = false
+layout_mode = 2
+
+[node name="Multiplyers" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.34
+anchor_top = 3.95
+anchor_right = 0.998
+anchor_bottom = 4.45
+offset_left = -0.199997
+offset_top = -3.05176e-05
+offset_right = 0.159973
+offset_bottom = -3.05176e-05
+
+[node name="Sell" type="Button" parent="Control/Multiplyers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Sell"
+
+[node name="1" type="Button" parent="Control/Multiplyers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "x1"
+
+[node name="10" type="Button" parent="Control/Multiplyers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "x10"
+
+[node name="100" type="Button" parent="Control/Multiplyers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "x100"
+
+[node name="Max" type="Button" parent="Control/Multiplyers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Max"
+
+[connection signal="pressed" from="Control/UpgradeTypes/Clickers" to="Control/ListOfUpgrades" method="ViewClickers"]
+[connection signal="pressed" from="Control/UpgradeTypes/Upgrades" to="Control/ListOfUpgrades" method="ViewEnhancement"]
+[connection signal="pressed" from="Control/UpgradeTypes/Mods" to="Control/ListOfUpgrades" method="ViewMods"]

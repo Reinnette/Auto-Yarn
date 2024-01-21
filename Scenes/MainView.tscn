@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdwh43boma4mq"]
+
+[ext_resource type="PackedScene" uid="uid://cc65fh2hrybhv" path="res://Scenes/Menu.tscn" id="1_s4twf"]
+[ext_resource type="PackedScene" uid="uid://boc3kpbx6o7td" path="res://Scenes/YarnClicker.tscn" id="2_utg4t"]
+[ext_resource type="PackedScene" uid="uid://bn37kxinbcbli" path="res://Scenes/Shop.tscn" id="3_g07dt"]
+[ext_resource type="PackedScene" uid="uid://drnsmxk56qg13" path="res://Scenes/Settings.tscn" id="4_g48k8"]
+[ext_resource type="Script" path="res://Scripts/Helpers/UpgradeHelper.gd" id="5_hn8uk"]
+[ext_resource type="Script" path="res://Scripts/Helpers/GameController.gd" id="6_bfrjk"]
+
+[node name="MainView" type="Node2D"]
+
+[node name="Baskets" type="Node" parent="."]
+
+[node name="Basket1" type="Node" parent="Baskets"]
+script = ExtResource("5_hn8uk")
+
+[node name="GameController" type="Node" parent="."]
+script = ExtResource("6_bfrjk")
+
+[node name="I18n" type="Node" parent="."]
+
+[node name="Views" type="Node" parent="."]
+
+[node name="YarnClicker" parent="Views" instance=ExtResource("2_utg4t")]
+
+[node name="Shop" parent="Views" instance=ExtResource("3_g07dt")]
+visible = false
+
+[node name="Settings" parent="Views" instance=ExtResource("4_g48k8")]
+visible = false
+
+[node name="Menu" parent="Views" instance=ExtResource("1_s4twf")]
+z_index = 1
