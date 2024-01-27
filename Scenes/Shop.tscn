@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bn37kxinbcbli"]
+[gd_scene load_steps=4 format=3 uid="uid://bn37kxinbcbli"]
 
 [ext_resource type="Script" path="res://Scripts/ViewModels/ShopView.gd" id="1_8a47o"]
 [ext_resource type="PackedScene" uid="uid://dbnxp1fwqmss0" path="res://upgrade.tscn" id="2_dysxx"]
+[ext_resource type="Script" path="res://Scripts/T_I18n.gd" id="3_2rqsg"]
 
 [node name="Shop" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [2.0]
@@ -32,16 +33,19 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Clickers"
+script = ExtResource("3_2rqsg")
 
 [node name="Upgrades" type="Button" parent="Control/UpgradeTypes"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Upgrades"
+script = ExtResource("3_2rqsg")
 
 [node name="Mods" type="Button" parent="Control/UpgradeTypes"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Modifications"
+script = ExtResource("3_2rqsg")
 
 [node name="ListOfUpgrades" type="Control" parent="Control"]
 layout_mode = 1
@@ -118,6 +122,7 @@ offset_bottom = -3.05176e-05
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Sell"
+script = ExtResource("3_2rqsg")
 
 [node name="1" type="Button" parent="Control/Multiplyers"]
 layout_mode = 2
@@ -138,6 +143,7 @@ text = "x100"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Max"
+script = ExtResource("3_2rqsg")
 
 [connection signal="pressed" from="Control/UpgradeTypes/Clickers" to="Control/ListOfUpgrades" method="ViewClickers"]
 [connection signal="pressed" from="Control/UpgradeTypes/Upgrades" to="Control/ListOfUpgrades" method="ViewEnhancement"]

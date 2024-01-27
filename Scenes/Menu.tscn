@@ -18,6 +18,7 @@ size_flags_horizontal = 3
 text = "Shop
 "
 script = ExtResource("2_f3ea2")
+metadata/I18n = "Text"
 
 [node name="Header" type="HBoxContainer" parent="."]
 offset_right = 576.0
@@ -86,6 +87,7 @@ offset_top = 59.0
 offset_right = 558.0
 offset_bottom = 119.0
 grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="Settings" type="Button" parent="PanelContainer"]
 layout_mode = 2

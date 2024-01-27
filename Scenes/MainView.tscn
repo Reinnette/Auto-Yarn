@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdwh43boma4mq"]
+[gd_scene load_steps=8 format=3 uid="uid://bdwh43boma4mq"]
 
 [ext_resource type="PackedScene" uid="uid://cc65fh2hrybhv" path="res://Scenes/Menu.tscn" id="1_s4twf"]
 [ext_resource type="PackedScene" uid="uid://boc3kpbx6o7td" path="res://Scenes/YarnClicker.tscn" id="2_utg4t"]
+[ext_resource type="Script" path="res://Scripts/I18n.gd" id="3_5v1jq"]
 [ext_resource type="PackedScene" uid="uid://bn37kxinbcbli" path="res://Scenes/Shop.tscn" id="3_g07dt"]
 [ext_resource type="PackedScene" uid="uid://drnsmxk56qg13" path="res://Scenes/Settings.tscn" id="4_g48k8"]
 [ext_resource type="Script" path="res://Scripts/Helpers/UpgradeHelper.gd" id="5_hn8uk"]
@@ -18,6 +19,7 @@ script = ExtResource("5_hn8uk")
 script = ExtResource("6_bfrjk")
 
 [node name="I18n" type="Node" parent="."]
+script = ExtResource("3_5v1jq")
 
 [node name="Views" type="Node" parent="."]
 

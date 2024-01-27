@@ -1,16 +1,22 @@
 extends Control
 
-const gameControllerPath = "../../../../GameController"
-const basketPath = "../../../../Baskets/Basket"
+@onready var rootNode = find_parent("MainView").get_path()
+@onready var gameControllerPath = str(rootNode, "/GameController")
+@onready var basketPath = str(rootNode, "/Baskets/Basket")
+@onready var i18n = str(rootNode, "/I18n")
+
 @onready var m_gameController = get_node(gameControllerPath)
 @onready var m_upgradeHelper = get_node(str(basketPath, m_gameController.currentBasket))
+@onready var m_I18n = get_node(i18n)
+@onready var m_I18nScript = load("res://Scripts/T_I18n.gd")
+
 var m_isSell = false
 var isSell:
 	get:
 		return m_isSell
 	set(value):
 		m_isSell = value
-		get_node("../Multiplyers/Sell").text = "Buy" if isSell else "Sell"
+		get_node("../Multiplyers/Sell").text = get_node(i18n).GetI81nT("T_Buy") if isSell else get_node(i18n).GetI81nT("T_Sell")
 	
 var currentMul = 1
 var mul:
@@ -98,12 +104,17 @@ func GenerateUpgrade(newChild, name, level, cost, indexId, upgradeType):
 	var upgrade = newChild
 	upgrade.visible = true
 	upgrade.name = name
-	upgrade.get_node("Info/Name").text = name
-	upgrade.get_node("Info/Desc").text = ""
+	upgrade.get_node("Info/Name").text = get_node(i18n).GetI81nT(str("T_", name))
+	upgrade.get_node("Info/Name").set_script(m_I18nScript)
+	upgrade.get_node("Info/Name").name = name
+	upgrade.get_node("Info/Desc").text = get_node(i18n).GetI81nT(str("T_", name, "_Desc"))
+	upgrade.get_node("Info/Desc").set_script(m_I18nScript)
+	upgrade.get_node("Info/Desc").name = str(name, "_Desc")
 	upgrade.get_node("Level Control/Level").text = str("LvL: ", level)
-	upgrade.get_node("Upgrade").text = str("Cost: ",  cost)
+	upgrade.get_node("Upgrade").text = str(get_node(i18n).GetI81nT("T_Cost"),  cost)
 	upgrade.get_node("Upgrade").id = indexId
 	upgrade.get_node("Upgrade").upgradeType = upgradeType
+	upgrade.get_node("Upgrade").set_script(m_I18nScript)
 	pass
 	
 #Hide all of the Upgrades and show the selected one
@@ -149,7 +160,7 @@ func UpgradeButtonPressed(id, upgradeType):
 	cost = GetUpgradeCost(upgradeType, id, multiplyer)
 	
 	FindNodeById(get_node(upgradeType), id)
-	btnToUpdate.text = str("Cost: ", cost)
+	btnToUpdate.text = str(i18n.GetI81nT("T_Cost"), cost)
 	pass
 	
 func GetUpgradeCost(upgradeType, id, multiplyer):
@@ -224,7 +235,7 @@ func MulChanged(liveUpdate = false):
 		var disabled = m_gameController.yarn < cost
 		
 		#Update the button text with the new value
-		clicker.get_child(2).text = str("Cost: ", cost)
+		clicker.get_child(2).text = str(i18n.GetI81nT("T_Cost"), cost)
 		clicker.get_child(2).disabled = disabled
 		pass
 	
@@ -249,7 +260,7 @@ func MulChanged(liveUpdate = false):
 		var disabled = m_gameController.yarn < cost
 		
 		#Update the button text with the new value
-		enhancement.get_child(2).text = str("Cost: ", cost)
+		enhancement.get_child(2).text = str(i18n.GetI81nT("T_Cost"), cost)
 		enhancement.get_child(2).disabled = disabled
 		pass
 	
@@ -271,7 +282,7 @@ func MulChanged(liveUpdate = false):
 		var disabled = m_gameController.yarn < cost
 		
 		#Update the button text with the new value
-		mod.get_child(2).text = str("Cost: ", cost)
+		mod.get_child(2).text = str(i18n.GetI81nT("T_Cost"), cost)
 		mod.get_child(2).disabled = disabled
 		pass
 	
