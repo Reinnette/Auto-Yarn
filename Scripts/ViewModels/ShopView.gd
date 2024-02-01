@@ -114,7 +114,7 @@ func GenerateUpgrade(newChild, name, level, cost, indexId, upgradeType):
 	upgrade.get_node("Upgrade").text = str(get_node(i18n).GetI81nT("T_Cost"),  cost)
 	upgrade.get_node("Upgrade").id = indexId
 	upgrade.get_node("Upgrade").upgradeType = upgradeType
-	upgrade.get_node("Upgrade").set_script(m_I18nScript)
+	#upgrade.get_node("Upgrade").set_script(m_I18nScript)
 	pass
 	
 #Hide all of the Upgrades and show the selected one
@@ -144,8 +144,8 @@ func UpgradeButtonPressed(id, upgradeType):
 		if(m_gameController.yarn < cost):
 			return
 		
-		var yarnLeft = m_gameController.yarn - cost
-		m_gameController.yarn = yarnLeft
+		m_gameController.yarn.Minus(cost)
+		#m_gameController.yarn = yarnLeft
 		
 		if upgradeType == upgrades.Clickers:
 			m_upgradeHelper.IncAutoClickerAmount(id)
@@ -159,8 +159,8 @@ func UpgradeButtonPressed(id, upgradeType):
 		
 	cost = GetUpgradeCost(upgradeType, id, multiplyer)
 	
-	FindNodeById(get_node(upgradeType), id)
-	btnToUpdate.text = str(i18n.GetI81nT("T_Cost"), cost)
+	FindNodeById(get_node(upgrades.keys()[upgradeType]), id)
+	btnToUpdate.text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
 	pass
 	
 func GetUpgradeCost(upgradeType, id, multiplyer):
@@ -209,13 +209,14 @@ func _on_max_pressed():
 	
 #This function is called every time the Multiplyer Value Changes
 #	as well as every second from the GameController in _process
-var lastYarnVal = 0
+var lastYarnVal = []
 func MulChanged(liveUpdate = false):
 	
-	if(m_gameController.yarn == lastYarnVal):
+	var listYarn = m_gameController.yarn.ConvertToInts()
+	if(listYarn == lastYarnVal):
 		return
 		
-	lastYarnVal = m_gameController.yarn
+	lastYarnVal = listYarn
 	
 	#Updeate Clickers
 	for index in m_upgradeHelper.clickers.size():
@@ -232,10 +233,11 @@ func MulChanged(liveUpdate = false):
 		
 		var multiplyer = GetMultiplyer(index, upgrades.Clickers)
 		var cost = m_upgradeHelper.GetClickerCost(index, multiplyer)
-		var disabled = m_gameController.yarn < cost
+		var yarn = m_gameController.yarn
+		var disabled = yarn.IsGreaterThan(cost)
 		
 		#Update the button text with the new value
-		clicker.get_child(2).text = str(i18n.GetI81nT("T_Cost"), cost)
+		clicker.get_child(2).text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
 		clicker.get_child(2).disabled = disabled
 		pass
 	
@@ -257,10 +259,11 @@ func MulChanged(liveUpdate = false):
 		var baseCost = m_upgradeHelper.GetClickerCost(index, multiplyer)
 		var clickerMul = m_upgradeHelper.GetAutoClickerSU(index)
 		var cost = baseCost * 1.25 * (clickerMul * 1.25)
-		var disabled = m_gameController.yarn < cost
+		var yarn = m_gameController.yarn
+		var disabled = yarn.IsGreaterThan(cost)
 		
 		#Update the button text with the new value
-		enhancement.get_child(2).text = str(i18n.GetI81nT("T_Cost"), cost)
+		enhancement.get_child(2).text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
 		enhancement.get_child(2).disabled = disabled
 		pass
 	
@@ -279,10 +282,11 @@ func MulChanged(liveUpdate = false):
 		
 		var multiplyer = GetMultiplyer(index, upgrades.Mods)
 		var cost = m_upgradeHelper.GetModsCost(index, multiplyer)
-		var disabled = m_gameController.yarn < cost
+		var yarn = m_gameController.yarn
+		var disabled = yarn.IsGreaterThan(cost)
 		
 		#Update the button text with the new value
-		mod.get_child(2).text = str(i18n.GetI81nT("T_Cost"), cost)
+		mod.get_child(2).text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
 		mod.get_child(2).disabled = disabled
 		pass
 	
@@ -312,7 +316,7 @@ func GetMultiplyer(index, upgradeType):
 			#	in the get cost
 			return floor(yarn / m_upgradeHelper.GetClickerCost(index, 1))
 		elif upgradeType == upgrades.Enhancement:
-			return m_upgradeHelper.GetModCost(index)
+			return m_upgradeHelper.GetAutoHandMulCost(index)
 		elif upgradeType == upgrades.Mods:
 			return floor(yarn / m_upgradeHelper.GetModsCost(index, 1))
 			pass

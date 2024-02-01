@@ -4,39 +4,39 @@ var multiplyer = 1
 var yarnInBasket = [1]#The Yarn on screen and the level of the yarn
 
 #Cursor, 			Level, Cost, Generation(P/S), Multiplyer
-var cursor = ["Cursor", 0, 	10,				1, 		100]
+var cursor = ["Cursor", 0, 	str(10),				1, 		100]
 
-#Clicker, 			Amount, Level, Cost, Generation(P/S), Multiplyer
+#Clicker, 			Amount, Level, Cost, 		Generation(P/S), Multiplyer
 var clickers = [
-	["Hand", 			0, 0, 15, 				0.1, 				100],
-	["Needles", 		0, 0, 100, 				1, 					100],
-	["Kittens", 		0, 0, 1100, 			8, 					100],
-	["Matches", 		0, 0, 12 * (10 ** 3), 	47, 				100],
-	["Mamma Cat", 		0, 0, 13 * (10 ** 4), 	260, 				100],
-	["Scissors", 		0, 0, 14 * (10 ** 5), 	1400, 				100],
-	["Edward", 			0, 0, 2 * (10 ** 7), 	7800, 				100],
-	["Baby Dragon", 	0, 0, 33 * (10 ** 7), 	44 * (10 ** 3), 	100],
-	["Saw", 			0, 0, 51 * (10 ** 8), 	260 * (10 ** 3), 	100],
-	["Shredder",		0, 0, 75 * (10 ** 9), 	16 * (10**5), 		100],
-	["Grand Meowster", 	0, 0, 1 * (10 ** 12), 	10 * (10**6), 		100],
-	["Toxic Brew",		0, 0, 14 * (10 ** 12),	65 * (10**6), 		100],
-	["Kniting Factory", 0, 0, 170 * (10 ** 12),	430 * (10**6), 		100],
-	["Kitten Temple", 	0, 0, 21 * (10 ** 14), 	29 * (10**8), 		100],
-	["Anti-Mater", 		0, 0, 26 * (10 ** 15),	21 * (10**9), 		100],
-	["Time Bomb", 		0, 0, 310 * (10 ** 15), 150 * (10**9),		100],
-	["Atom-Spliter", 	0, 0, 71 * (10 ** 18), 	11 * (10**11), 		100],
-	["Black-Cat Luck", 	0, 0, 12 * (10 ** 21),	83 * (10**11), 		100],
-	["Comet Stork", 	0, 0, 19 * (10 ** 21),	64 * (10**12), 		100],
-	["Black Hole", 		0, 0, 540 * (10 ** 21),	510 * (10**12), 	100]
+	["Hand", 			0, 0, str(12), 				0.1, 				100],
+	["Needles", 		0, 0, str(80), 				1, 					100],
+	["Kittens", 		0, 0, str(1080), 			8, 					100],
+	["Yarn Farm", 		0, 0, str(12 * (10 ** 3)), 	47, 				100],
+	["Mamma Cat", 		0, 0, str(13 * (10 ** 4)), 	260, 				100],
+	["Scissors", 		0, 0, str(14 * (10 ** 5)), 	1400, 				100],
+	["Bank of Yarn", 	0, 0, str(2 * (10 ** 7)), 	7800, 				100],
+	["Baby Dragon", 	0, 0, str(33 * (10 ** 7)), 	44 * (10 ** 3), 	100],
+	["Research Center", 0, 0, str(51 * (10 ** 8)), 	260 * (10 ** 3), 	100],
+	["Shredder",		0, 0, str(75 * (10 ** 9)), 	16 * (10**5), 		100],
+	["Loom", 			0, 0, str(1 * (10 ** 12)), 	10 * (10**6), 		100],
+	["Toxic Brew",		0, 0, str(14 * (10 ** 12)),	65 * (10**6), 		100],
+	["Milk Factory", 	0, 0, str(170 * (10 ** 12)),430 * (10**6), 		100],
+	["Kitten Temple", 	0, 0, str(21 * (10 ** 14)), 29 * (10**8), 		100],
+	["Anti-Mater", 		0, 0, str(26 * (10 ** 15)),	21 * (10**9), 		100],
+	["Time Bomb", 		0, 0, str(310 * (10 ** 15)),150 * (10**9),		100],
+	["Atom-Spliter", 	0, 0, str(71 * (10 ** 18)), 11 * (10**11), 		100],
+	["Black-Cat Luck", 	0, 0, str(12 * (10 ** 21)),	83 * (10**11), 		100],
+	["Comet Storm", 	0, 0, str(19 * (10 ** 21)),	64 * (10**12), 		100],
+	["Black Hole", 		0, 0, str(540 * (10 ** 21)),510 * (10**12), 	100]
 	]
 
 #Mod, 				Amount, Cost
 var modifications = [
-	["Multi-Yarn", 		0, 40 * 10 ** 6],
-	["Golden Yarn", 	0, 400 * 10 ** 6],
-	["Yarnatonic", 		0, 0],
-	["Multi-Basket", 	0, 60 * (10 ** 6)],
-	["Yarn Evolution", 	0, 0]#Need to have gotten X yarn. Perstege points are yarn / X
+	["Multi-Yarn", 		0, str(40 * 10 ** 6)],
+	["Golden Yarn", 	0, str(400 * 10 ** 6)],
+	["Yarnatonic", 		0, str(9999)],
+	["Multi-Basket", 	0, str(60 * (10 ** 6))],
+	["Yarn Evolution", 	0, str(9999)]#Need to have gotten X yarn. Perstege points are yarn / X
 ]
 
 #Increase item efficiency/Production rate, 
@@ -50,8 +50,8 @@ var modifications = [
 
 #region Cursor
 
-func GetCursorCost():
-	return CalcUpgradeCost(cursor[1], cursor[2])
+func GetCursorCost(mul = 1):
+	return CalcUpgradeCost(cursor[1], cursor[2], mul)
 	
 func GetCursorMul():
 	return (cursor[4] - 100) / 20
@@ -66,7 +66,7 @@ func IncCursorMul():
 
 #region Clickers
 func GetClickerCost(clickerId, mul = 1):
-	return CalcUpgradeCost(clickers[clickerId][1] + 1, clickers[clickerId][3]) * mul
+	return CalcUpgradeCost(clickers[clickerId][1] + 1, clickers[clickerId][3], mul)
 	pass
 
 func GetClickerAmount(clickerId):
@@ -77,8 +77,8 @@ func GetClickerLevel(clickerId):
 	return clickers[clickerId][2]
 	pass
 
-func GetAutoHandMulCost(clickerId):
-	return CalcUpgradeCost(GetAutoClickerSU(clickerId), (clickers[clickerId][5]))
+func GetAutoHandMulCost(clickerId, mul = 1):
+	return CalcUpgradeCost(GetAutoClickerSU(clickerId), (clickers[clickerId][5]), mul)
 	pass
 	
 func GetAutoClickerSU(clickerId):
@@ -104,8 +104,9 @@ func DecAutoClickerAmount(clickerId, amount):
 
 func GetModCost(clickerId):
 	var clickerMul = GetAutoClickerSU(clickerId) + 1
-	var baseCost = GetClickerCost(clickerId)
-	return round(baseCost * 1.1 * (clickerMul * 1.1))
+	var mul = 1.1 * (clickerMul * 1.1)
+	var baseCost = GetClickerCost(clickerId, mul)
+	return baseCost
 	pass
 	
 #endregion
@@ -133,7 +134,7 @@ func RunMulBasketUpgrade():
 	pass
 
 func GetModsCost(modId, mul = 1):
-	return CalcUpgradeCost(modifications[modId][1] + 1, modifications[modId][2]) * mul
+	return CalcUpgradeCost(modifications[modId][1] + 1, modifications[modId][2], mul)
 	pass
 	
 func IncModsAmount(modId):
@@ -162,9 +163,18 @@ func HaveAutoClicker():
 	return hasAuto
 	pass
 	
-func CalcUpgradeCost(level, cost):
-	return floor(((level * 1.15) * cost) * 1.15 * multiplyer)
-	pass
+
+func CalcUpgradeCost(level, cost, shopMul):
+	var yarnCost: Yarn = Yarn.new()
+	yarnCost.yarn = cost
+	
+	yarnCost.Mul(level * 1.15)
+	yarnCost.Mul(1.15)
+	yarnCost.Mul(multiplyer)
+	yarnCost.Mul(shopMul)
+	
+	return yarnCost.ConvertToInts()
+	
 	
 func GetBasketYPS():#Gets this baskets yarn per second(YPS)
 	var basketYPS = 0

@@ -9,8 +9,6 @@ func _pressed():
 	disabled = true
 	var views = get_node("../../../")
 	
-	print(views.name)
-	
 	views.get_node("YarnClicker").visible = false
 	views.get_node("Shop").visible = false
 	views.get_node("Settings").visible = true	
