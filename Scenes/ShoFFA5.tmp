@@ -1,15 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bn37kxinbcbli"]
+[gd_scene load_steps=4 format=3 uid="uid://bn37kxinbcbli"]
 
 [ext_resource type="Script" path="res://Scripts/ViewModels/ShopView.gd" id="1_8a47o"]
-[ext_resource type="Texture2D" uid="uid://dr0pefk5tadnn" path="res://img/yarn_yellow.png" id="2_32l8n"]
 [ext_resource type="PackedScene" uid="uid://dbnxp1fwqmss0" path="res://upgrade.tscn" id="2_dysxx"]
 [ext_resource type="Script" path="res://Scripts/T_I18n.gd" id="3_2rqsg"]
-[ext_resource type="Texture2D" uid="uid://7x2kwq5aah6j" path="res://img/yarn_teal.png" id="3_cbnsn"]
-[ext_resource type="Texture2D" uid="uid://eghhpk6guik3" path="res://img/yarn_purple.png" id="4_3cm5g"]
-[ext_resource type="Texture2D" uid="uid://bmo4cer2rl6dh" path="res://img/yarn_red.png" id="7_fde7c"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_enr35"]
-font_color = Color(0, 0, 0, 1)
 
 [node name="Shop" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [2.0]
@@ -37,84 +30,21 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Clickers" type="Button" parent="Control/UpgradeTypes"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Clickers"
 script = ExtResource("3_2rqsg")
 
 [node name="Upgrades" type="Button" parent="Control/UpgradeTypes"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Upgrades"
 script = ExtResource("3_2rqsg")
 
 [node name="Mods" type="Button" parent="Control/UpgradeTypes"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Modifications"
-script = ExtResource("3_2rqsg")
-
-[node name="TextureButton" type="TextureButton" parent="Control/UpgradeTypes"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture_normal = ExtResource("2_32l8n")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="Control/UpgradeTypes/TextureButton"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Clickers"
-label_settings = SubResource("LabelSettings_enr35")
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("3_2rqsg")
-
-[node name="TextureButton2" type="TextureButton" parent="Control/UpgradeTypes"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture_normal = ExtResource("3_cbnsn")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="Control/UpgradeTypes/TextureButton2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Enhancements"
-label_settings = SubResource("LabelSettings_enr35")
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("3_2rqsg")
-
-[node name="TextureButton3" type="TextureButton" parent="Control/UpgradeTypes"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture_normal = ExtResource("4_3cm5g")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="Control/UpgradeTypes/TextureButton3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Modifications"
-label_settings = SubResource("LabelSettings_enr35")
-horizontal_alignment = 1
-vertical_alignment = 1
 script = ExtResource("3_2rqsg")
 
 [node name="ListOfUpgrades" type="Control" parent="Control"]
@@ -194,69 +124,20 @@ size_flags_horizontal = 3
 text = "Sell"
 script = ExtResource("3_2rqsg")
 
-[node name="TextureRect" type="TextureRect" parent="Control/Multiplyers/Sell"]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_fde7c")
-expand_mode = 1
-stretch_mode = 1
-flip_h = true
-
 [node name="1" type="Button" parent="Control/Multiplyers"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "x1"
-
-[node name="TextureRect" type="TextureRect" parent="Control/Multiplyers/1"]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_fde7c")
-expand_mode = 1
-stretch_mode = 1
 
 [node name="10" type="Button" parent="Control/Multiplyers"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "x10"
 
-[node name="TextureRect" type="TextureRect" parent="Control/Multiplyers/10"]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_fde7c")
-expand_mode = 1
-stretch_mode = 1
-
 [node name="100" type="Button" parent="Control/Multiplyers"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "x100"
-
-[node name="TextureRect" type="TextureRect" parent="Control/Multiplyers/100"]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_fde7c")
-expand_mode = 1
-stretch_mode = 1
 
 [node name="Max" type="Button" parent="Control/Multiplyers"]
 layout_mode = 2
@@ -264,24 +145,9 @@ size_flags_horizontal = 3
 text = "Max"
 script = ExtResource("3_2rqsg")
 
-[node name="TextureRect" type="TextureRect" parent="Control/Multiplyers/Max"]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_fde7c")
-expand_mode = 1
-stretch_mode = 1
-
 [connection signal="pressed" from="Control/UpgradeTypes/Clickers" to="Control/ListOfUpgrades" method="ViewClickers"]
 [connection signal="pressed" from="Control/UpgradeTypes/Upgrades" to="Control/ListOfUpgrades" method="ViewEnhancement"]
 [connection signal="pressed" from="Control/UpgradeTypes/Mods" to="Control/ListOfUpgrades" method="ViewMods"]
-[connection signal="pressed" from="Control/UpgradeTypes/TextureButton" to="Control/ListOfUpgrades" method="ViewClickers"]
-[connection signal="pressed" from="Control/UpgradeTypes/TextureButton2" to="Control/ListOfUpgrades" method="ViewEnhancement"]
-[connection signal="pressed" from="Control/UpgradeTypes/TextureButton3" to="Control/ListOfUpgrades" method="ViewMods"]
 [connection signal="pressed" from="Control/Multiplyers/Sell" to="Control/ListOfUpgrades" method="_on_sell_pressed"]
 [connection signal="pressed" from="Control/Multiplyers/1" to="Control/ListOfUpgrades" method="_on_1_pressed"]
 [connection signal="pressed" from="Control/Multiplyers/10" to="Control/ListOfUpgrades" method="_on_10_pressed"]

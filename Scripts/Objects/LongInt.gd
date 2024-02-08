@@ -1,8 +1,8 @@
 extends Node
 
-class_name Yarn
+class_name LInt
 
-var yarn: String
+var lint: String = ""
 
 #Max amount each List<int> can be
 #We take 1 for if theres a digit added to the front
@@ -21,7 +21,7 @@ func Add(value):
 		curs[0][count] += curs[1][count]
 		pass
 	
-	yarn = ConvertToString(curs[0])
+	lint = ConvertToString(curs[0])
 	pass
 	
 	
@@ -60,7 +60,7 @@ func Minus(value):
 			newCur.append(newVal)
 		pass
 	
-	yarn = ConvertToString(curs[0])
+	lint = ConvertToString(newCur)
 	pass
 	
 
@@ -87,7 +87,7 @@ func Mul(value):
 			pass
 		pass
 	
-	yarn = ConvertToString(listInts)
+	lint = ConvertToString(listInts)
 	pass
 	
 #Theres no easy way to divide two lists
@@ -117,15 +117,15 @@ func ConvertToString(value):
 func ConvertToInts():	
 	var curList = []
 	var count = 1
-	var segments = yarn.length() / intMaxChar
+	var segments = lint.length() / intMaxChar
 	
 	if segments == 0:
-		curList.append(int(yarn))
+		curList.append(int(lint))
 	
 	for currency in segments:
 		var startPos = (count - 1) * intMaxChar
 		var length = intMaxChar * count
-		var subCur = yarn.substr(startPos, length)
+		var subCur = lint.substr(startPos, length)
 		curList.append(int(subCur))
 		count += 1
 	
@@ -149,21 +149,34 @@ func makeArraysEqual(array1: Array, array2: Array):
 	return [array1, array2]
 	
 
-func IsGreaterThan(array2, array1 = ConvertToInts()):
+func IsGreaterThan(array2: Array, array1 = ConvertToInts()):
 	#Find which number is greater
 	var largerNumber = null
-	for count in array1[0].size():
+	
+	#First compare the size of the two arrays
+	#If theres a size difference return as best fit
+	if array1.size() > array2.size():
+		return true
+	elif array2.size() > array1.size():
+		return false
+	
+	#The arrays must be the same size
+	#Figure out which is larger
+	for count in array1.size():
 		#Once we found one greater don't continue
 		if largerNumber != null:
-			return
+			continue
 		
 		#Compare and find the larger number
 		if array1[count] > array2[count]:
 			largerNumber = true
-			return
 		elif array2[count] > array1[count]:
 			largerNumber = false
-			return
+			
+	#If we get to this point and were unchanged they must be equal
+	#Return true in this case
+	if largerNumber == null:
+		largerNumber = true
 	
 	return largerNumber
 	pass

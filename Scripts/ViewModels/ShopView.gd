@@ -19,14 +19,12 @@ var isSell:
 		get_node("../Multiplyers/Sell").text = get_node(i18n).GetI81nT("T_Buy") if isSell else get_node(i18n).GetI81nT("T_Sell")
 	
 var currentMul = 1
-var mul:
+var selectedMul = 1:
 	get:
 		return currentMul
 	set(value):
 		currentMul = value
 		MulChanged()
-		
-enum upgrades {Clickers, Enhancement, Mods}
 
 #region Shop Upgrades Nodes
 var hasLoadedClickers = false
@@ -54,14 +52,16 @@ func GenerateClickers():
 	var newUpgrade = get_node("Clickers/Container/Upgrade").duplicate()
 	get_node("Clickers/Container/Upgrade").queue_free()
 	
-	for indexId in m_upgradeHelper.clickers.size():
-		var clickerInfo = m_upgradeHelper.clickers[indexId]
+	for indexId in m_upgradeHelper.clickers.size()+1:
+		#If where the first item add the cursur upgrade
+		var clickerInfo = m_upgradeHelper.cursor[0] if indexId == 0 else m_upgradeHelper.clickers[indexId-1]
 		var newChild = newUpgrade.duplicate()
 		get_node("Clickers/Container").add_child(newChild)
 
-		var cost = m_upgradeHelper.GetClickerCost(indexId, mul)
+		var cost = m_upgradeHelper.GetUpgradeCost(indexId, clickerInfo.type, selectedMul)
 		
-		GenerateUpgrade(newChild, clickerInfo[0], clickerInfo[2], cost, indexId, upgrades.Clickers)
+		var type = Upgrade.new().upgrades.keys()[clickerInfo.type]
+		GenerateUpgrade(newChild, str(type, indexId), clickerInfo.ammount, cost, indexId, clickerInfo.type)
 		pass
 	pass
 	
@@ -70,16 +70,16 @@ func GenerateUpgrades():
 	var newUpgrade = get_node("Enhancement/Container/Upgrade").duplicate()
 	get_node("Enhancement/Container/Upgrade").queue_free()
 	
-	for indexId in m_upgradeHelper.clickers.size():
-		var clickerInfo = m_upgradeHelper.clickers[indexId]
+	for indexId in m_upgradeHelper.enhancments.size():
+		var enhancmentsInfo = m_upgradeHelper.enhancments[indexId]
 		var newChild = newUpgrade.duplicate()
 		get_node("Enhancement/Container").add_child(newChild)
 
-		var clickerMul = m_upgradeHelper.GetAutoClickerSU(indexId) + 1
-		var cost = m_upgradeHelper.GetModCost(indexId)
-		var name = str(clickerInfo[0], clickerMul)
+		var enhancmentMul = m_upgradeHelper.enhancments[indexId].GetMul() + 1
+		var cost = m_upgradeHelper.GetUpgradeCost(indexId, enhancmentsInfo.type, selectedMul)
+		var name = str(enhancmentsInfo.type, indexId, "_", enhancmentMul)
 		
-		GenerateUpgrade(newChild, name, clickerMul, cost, indexId, upgrades.Enhancement)
+		GenerateUpgrade(newChild, name, enhancmentMul, cost, indexId, enhancmentsInfo.type)
 		pass
 	pass
 	
@@ -93,9 +93,9 @@ func GenerateModifications():
 		var newChild = newUpgrade.duplicate()
 		get_node("Mods/Container").add_child(newChild)
 
-		var cost = m_upgradeHelper.GetModsCost(indexId, mul)
+		var cost = m_upgradeHelper.GetUpgradeCost(indexId, modInfo.type)
 		
-		GenerateUpgrade(newChild, modInfo[0], "", cost, indexId, upgrades.Mods)
+		GenerateUpgrade(newChild, str(modInfo.type, indexId), "", cost, indexId, modInfo.type)
 		pass
 	pass
 	
@@ -111,7 +111,7 @@ func GenerateUpgrade(newChild, name, level, cost, indexId, upgradeType):
 	upgrade.get_node("Info/Desc").set_script(m_I18nScript)
 	upgrade.get_node("Info/Desc").name = str(name, "_Desc")
 	upgrade.get_node("Level Control/Level").text = str("LvL: ", level)
-	upgrade.get_node("Upgrade").text = str(get_node(i18n).GetI81nT("T_Cost"),  cost)
+	upgrade.get_node("Upgrade/Cost").text = str(get_node(i18n).GetI81nT("T_Cost"),  cost[0])
 	upgrade.get_node("Upgrade").id = indexId
 	upgrade.get_node("Upgrade").upgradeType = upgradeType
 	#upgrade.get_node("Upgrade").set_script(m_I18nScript)
@@ -134,52 +134,55 @@ func UpgradeButtonPressed(id, upgradeType):
 	var cost = GetUpgradeCost(upgradeType, id, multiplyer)
 		
 	if isSell:
-		if upgradeType == upgrades.Clickers:
-			if(m_upgradeHelper.GetClickerAmount(id) == 0):
+		if upgradeType == m_upgradeHelper.clickers[0].type:
+			if(m_upgradeHelper.clickers[id].ammount == 0):
 				return
 			
-			m_upgradeHelper.DecAutoClickerAmount(id, multiplyer)
-			m_gameController.yarn += cost
+			m_upgradeHelper.clickers[id].DecAmount(multiplyer)
+			m_gameController.yarn.Add(cost)
 	else:
-		if(m_gameController.yarn < cost):
+		if(!m_gameController.yarn.IsGreaterThan(cost)):
 			return
 		
 		m_gameController.yarn.Minus(cost)
 		#m_gameController.yarn = yarnLeft
 		
-		if upgradeType == upgrades.Clickers:
-			m_upgradeHelper.IncAutoClickerAmount(id)
-		elif upgradeType == upgrades.Enhancement:
-			m_upgradeHelper.IncAutoClickerMul(id)
+		if upgradeType == m_upgradeHelper.clickers[0].type:
+			if id == 0:
+				m_upgradeHelper.cursor[id].IncAmount(multiplyer)
+			else:
+				m_upgradeHelper.clickers[id-1].IncAmount(multiplyer)
+		elif upgradeType == m_upgradeHelper.enhancements[0].type:
+			m_upgradeHelper.enhancements[id].IncAmmount()
 			pass
-		elif upgradeType == upgrades.Mods:
-			m_upgradeHelper.IncModsAmount(id)
+		elif upgradeType == m_upgradeHelper.mods[0].type:
+			m_upgradeHelper.mods[id].IncAmount()
 			pass
 		pass
 		
 	cost = GetUpgradeCost(upgradeType, id, multiplyer)
 	
-	FindNodeById(get_node(upgrades.keys()[upgradeType]), id)
-	btnToUpdate.text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
+	var type = Upgrade.new().upgrades.keys()[upgradeType]
+	FindNodeById(get_node(type), id, type)
+	
+	#Update display text
+	btnToUpdate.get_node("Cost").text = str(get_node(i18n).GetI81nT("T_Cost"), cost[0])
 	pass
 	
-func GetUpgradeCost(upgradeType, id, multiplyer):
-	if(upgradeType == upgrades.Clickers):
-		return m_upgradeHelper.GetClickerCost(id, multiplyer)
-	elif upgradeType == upgrades.Enhancement:
-		return m_upgradeHelper.GetModCost(id)
-	elif upgradeType == upgrades.Mods:
-		return m_upgradeHelper.GetModsCost(id, multiplayer)
-		pass
+func GetUpgradeCost(upgradeType, id, multiplyer = 1):
+	return m_upgradeHelper.GetUpgradeCost(id, upgradeType, multiplyer)
 	
 	
-func FindNodeById(node, id):
+func FindNodeById(node, id, type):
 	for children in node.get_children():
 		if children.get_child_count() > 0:
-			FindNodeById(children, id)
+			if children.name == "Upgrade" && children.id == id:
+					btnToUpdate = children
+			else:
+				FindNodeById(children, id, type)
 		else:
-			if children.name == "Upgrade":
-				if children.id == id:
+			print(children.name)
+			if children.name == "Upgrade" && children.id == id:
 					btnToUpdate = children
 			pass
 	pass
@@ -192,19 +195,19 @@ func _on_sell_pressed():
 	pass 
 
 func _on_1_pressed():
-	mul = 1
+	selectedMul = 1
 	pass 
 	
 func _on_10_pressed():
-	mul = 10
+	selectedMul = 10
 	pass 
 
 func _on_100_pressed():
-	mul = 100
+	selectedMul = 100
 	pass 
 	
 func _on_max_pressed():
-	mul = 999
+	selectedMul = 999
 	pass 
 	
 #This function is called every time the Multiplyer Value Changes
@@ -231,14 +234,14 @@ func MulChanged(liveUpdate = false):
 		if clicker == null:
 			continue
 		
-		var multiplyer = GetMultiplyer(index, upgrades.Clickers)
-		var cost = m_upgradeHelper.GetClickerCost(index, multiplyer)
+		var multiplyer = GetMultiplyer(index, m_upgradeHelper.clickers[0].type)
+		var cost = m_upgradeHelper.GetUpgradeCost(index, m_upgradeHelper.clickers[0].type, multiplyer)
 		var yarn = m_gameController.yarn
 		var disabled = yarn.IsGreaterThan(cost)
 		
 		#Update the button text with the new value
-		clicker.get_child(2).text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
-		clicker.get_child(2).disabled = disabled
+		clicker.get_node("Upgrade/Cost").text = str(get_node(i18n).GetI81nT("T_Cost"), cost[0])
+		clicker.get_child(2).disabled = !disabled
 		pass
 	
 	#Update Upgrades
@@ -254,17 +257,17 @@ func MulChanged(liveUpdate = false):
 		if enhancement == null:
 			continue
 		
-		var multiplyer = GetMultiplyer(index, upgrades.Enhancement)
+		var multiplyer = GetMultiplyer(index, m_upgradeHelper.enhancments[0].type)
 		
-		var baseCost = m_upgradeHelper.GetClickerCost(index, multiplyer)
-		var clickerMul = m_upgradeHelper.GetAutoClickerSU(index)
-		var cost = baseCost * 1.25 * (clickerMul * 1.25)
+		var baseCost = m_upgradeHelper.GetUpgradeCost(index, m_upgradeHelper.enhancments[0].type, multiplyer)
+		var clickerMul = m_upgradeHelper.enhancments[index].GetMul()
+		var cost = baseCost[0] * 1.25 * (clickerMul+1 * 1.25)
 		var yarn = m_gameController.yarn
-		var disabled = yarn.IsGreaterThan(cost)
+		var disabled = yarn.IsGreaterThan([cost])
 		
 		#Update the button text with the new value
-		enhancement.get_child(2).text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
-		enhancement.get_child(2).disabled = disabled
+		enhancement.get_node("Upgrade/Cost").text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
+		enhancement.get_child(2).disabled = !disabled
 		pass
 	
 	#Update Modifications
@@ -280,14 +283,14 @@ func MulChanged(liveUpdate = false):
 		if mod == null:
 			continue
 		
-		var multiplyer = GetMultiplyer(index, upgrades.Mods)
-		var cost = m_upgradeHelper.GetModsCost(index, multiplyer)
+		var multiplyer = GetMultiplyer(index, m_upgradeHelper.modifications[0].type)
+		var cost = m_upgradeHelper.GetUpgradeCost(index, m_upgradeHelper.modifications[0].type, multiplyer)
 		var yarn = m_gameController.yarn
 		var disabled = yarn.IsGreaterThan(cost)
 		
 		#Update the button text with the new value
-		mod.get_child(2).text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
-		mod.get_child(2).disabled = disabled
+		mod.get_node("Upgrade/Cost").text = str(get_node(i18n).GetI81nT("T_Cost"), cost)
+		mod.get_child(2).disabled = !disabled
 		pass
 	
 	pass
@@ -308,19 +311,9 @@ func ViewMods():
 func GetMultiplyer(index, upgradeType):
 	#If the multiplyer is set to Max then get the max Multiplyer that 
 		#	can be afforded for this node
-	if(mul == 999):
+	if(selectedMul == 999 && upgradeType == m_upgradeHelper.clickers[0].type):
 		var yarn = m_gameController.yarn
+		return floor(yarn / GetUpgradeCost(upgradeType, index))
 		
-		if(upgradeType == upgrades.Clickers):
-			#Current multiplyer is yarn over base cost hence the use of "1"
-			#	in the get cost
-			return floor(yarn / m_upgradeHelper.GetClickerCost(index, 1))
-		elif upgradeType == upgrades.Enhancement:
-			return m_upgradeHelper.GetAutoHandMulCost(index)
-		elif upgradeType == upgrades.Mods:
-			return floor(yarn / m_upgradeHelper.GetModsCost(index, 1))
-			pass
-		pass
-		
-	return mul
+	return selectedMul
 	pass

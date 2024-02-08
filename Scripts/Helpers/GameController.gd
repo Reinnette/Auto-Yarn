@@ -1,12 +1,11 @@
 extends Node
 
-var curencyYarn: Yarn = Yarn.new()#Shows only to the 100th whole and decimal
+var curencyYarn: LInt = LInt.new()#Shows only to the 100th whole and decimal
 var yarn: #Standard Currency
 	get:
 		return curencyYarn
 	set(value): 
-		curencyYarn.yarn = value
-		get_node("../Views/Menu/Header/Currency").text = str("Yarn: ", curencyYarn)
+		curencyYarn.lint = value
 		
 var yarnSoul = 0 #Special Currency
 var currentBasket = 1 #Used to determin the current basket for the YarnClicker View
@@ -16,7 +15,8 @@ var lastAutoClick = 0
 var goldenBallonCount = 0
 
 func _ready():
-	yarn = str(1.00 * (10 ** 63))
+	#yarn = str(1.00 * (10 ** 63))
+	pass
 
 func _process(delta):	
 	lastAutoClick += delta
@@ -39,8 +39,11 @@ func _process(delta):
 		pass
 	pass
 	
-func CalcManualClick():
+func CalcManualClick():	
+	var upgradeHelper = get_node(str("../Baskets/Basket", 1))
+	var earned = upgradeHelper.cursor.GetGenerationAmount()
 	
+	CalcYarnEarned(earned)
 	pass
 	
 func CalcYarnEarned(earned):
@@ -52,7 +55,10 @@ func CalcYarnEarned(earned):
 		earned *= (10 ** goldenBallonCount)
 		pass
 	
-	yarn.Add(earned)
+	var listEarned = [earned]
+	
+	yarn.Add(listEarned)
+	get_node("../Views/Menu/Header/Currency").text = str("Yarn: ", yarn.lint)
 	
 	YarnPopped(yarnHit)
 	pass

@@ -1,4 +1,4 @@
-extends Button
+extends TextureButton
 
 @onready var rootNode = find_parent("MainView").get_path()
 @onready var I18nPath = str(rootNode, "/I18n")
@@ -26,11 +26,13 @@ func I18n(translations):
 	var scene = get_path().get_concatenated_names()
 	var key = str("T_", scene.replace("/", "_"))
 	
+	var textNode = get_child(0)
+	
 	if(!translations.has(key)):
 		get_node(I18nPath).CreateI18n(key, "No I18n")
-		text = "No I18n"
+		textNode.text = "No I18n"
 		return
 	
-	text = translations[key]
+	textNode.text = translations[key]
 	pass
 
