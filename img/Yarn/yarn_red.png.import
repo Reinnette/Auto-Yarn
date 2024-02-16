@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bmo4cer2rl6dh"
-path="res://.godot/imported/yarn_red.png-7191bf56694654a01bd7f991948453cc.ctex"
+path="res://.godot/imported/yarn_red.png-241ecfd334d2236918b087737ae52ad5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/yarn_red.png"
-dest_files=["res://.godot/imported/yarn_red.png-7191bf56694654a01bd7f991948453cc.ctex"]
+source_file="res://img/Yarn/yarn_red.png"
+dest_files=["res://.godot/imported/yarn_red.png-241ecfd334d2236918b087737ae52ad5.ctex"]
 
 [params]
 

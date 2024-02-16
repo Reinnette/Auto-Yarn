@@ -41,38 +41,46 @@ func _init():
 		enhancments.append(EnhancementUpgrade.new(clickers[count].baseCost, clickers[count].costExpnt))
 
 #region Modifications
-
-#Multi Yarn - adds another yarn to unravel
-#Golden Yarn - every X layers will be golden varient giving 10x 
-#Yarntonic - special potion that makes the Yarn stronger advancing it by X Layers
-#Yarn Evolution - Reset your current standing where Yarn is stronger(+10%) and gain X special points
 	
 #Multi Basket - Adds another basket to unravel Yarn in 
 #Note: cost of the upgrades in the new basket you go up by 10x but also reward 7x more
 func RunMulBasketUpgrade():
 	#clickers.remove_at(index)
-	var basketNode = get_parent().duplicate()
-	basketNode.name = str("Basket", modifications[3][1])
+	var basketNode = self.duplicate()
+	basketNode.name = str("Basket", modifications[3].ammount+2)
 	
 	#The first basket should be the only one to upgrade the Hand Clicker, 
 	#	Multi Basket, and Yarn Evolution
 	basketNode.clickers.remove_at(0)
-	basketNode.Modifications.remove_at(3)
-	basketNode.Modifications.remove_at(4)
+	basketNode.modifications.remove_at(3)
+	basketNode.modifications.remove_at(4)
 	
 	get_parent().add_child(basketNode)
 	pass
 
+#Multi Yarn - adds another yarn to unravel
 func RunMultiYarn():
+	#Set to the current Yarnatonic amount
+	yarnInBasket.append(modifications[2].ammount)
 	pass
 	
+#Golden Yarn - every X layers will be golden varient giving 10x 
 func RunGoldenYarn():
 	pass
 	
+#Yarntonic - special potion that makes the Yarn stronger advancing it by X Layers
 func RunYarnatonic():
 	pass
 	
+#Yarn Evolution - Reset your current standing where Yarn is stronger(+10%) and gain X special points
 func RunYarnEvolution():
+	#Oh boy here we go....
+	#Time to spiral into madness
+	
+	var gameController = find_parent("MainView").get_child(2)
+	gameController.yarn = "0"
+	gameController.canEarnSouls = true
+	gameController.yarnSouls += (modifications[4].ammount+1) * 1000
 	pass
 
 #endregion Modifications
@@ -84,9 +92,14 @@ func GetUpgradeCost(index, type, mul = 1):
 	if type == clickers[0].type:
 		return cursor[0].GetCost(multiplyer, mul) if index == 0 else clickers[index-1].GetCost(multiplyer, mul)
 	elif type == enhancments[0].type:
-		return enhancments[index].GetCost(multiplyer)
+		var baseCost = enhancments[index].GetCost(multiplyer)
+		var cost = LInt.new()
+		cost.lint = cost.ConvertToString(baseCost)
+		cost.Mul(1.25 * 1.25)
+		return cost.ConvertToInts()
 	elif type == modifications[0].type:
 		return modifications[index].GetCost(multiplyer)
+
 
 func HaveAutoClicker():
 	var hasAuto = false
@@ -107,7 +120,7 @@ func HaveAutoClicker():
 	
 	
 func GetBasketYPS():#Gets this baskets yarn per second(YPS)
-	var basketYPS = 0
+	var basketYPS = LInt.new()
 	
 	#Run through all the clickers and calculate the YPS
 	for index in clickers.size():
@@ -115,17 +128,33 @@ func GetBasketYPS():#Gets this baskets yarn per second(YPS)
 		if(clickers[index].ammount == 0):
 			continue
 
-		var clickerYPS = clickers[index].GetGenerationAmount(enhancments[index].multiplyer)
+		var clickerYPS = clickers[index].GetGenerationAmount(enhancments[index].GetMul())
 		
 		#Earn an additinal 1% per evolution level
 		if modifications[4].ammount != null && modifications[4].ammount > 0:
 			clickerYPS *= (modifications[4].ammount * 1.1)
 		
-		basketYPS += clickerYPS
+		basketYPS.lint = basketYPS.ConvertToString(clickerYPS)
 		pass
 	
-	return basketYPS
+	return basketYPS.ConvertToInts()
 	pass
 	
 
+#Randomized the yarn in the Basket
+func GenerateNewYarn(ammount):
+	for count in yarnInBasket.size():
+		var goldenYarnAmmount = modifications[2].ammount
+		var newVal = RandomNumberGenerator.new().randi_range(1, goldenYarnAmmount)
+		
+		#Check if a golden ballon
+		var chance = goldenYarnAmmount * 10 - (yarnInBasket.count("99") * 75)
+		var rand = RandomNumberGenerator.new().randi_range(1, 100)
+		
+		if(rand <= chance):
+			newVal = "99"
+		
+		yarnInBasket[count] = newVal
+		pass
+	pass
 #endregion Helper Functions

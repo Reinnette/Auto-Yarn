@@ -1,13 +1,19 @@
 extends Node
 
+@onready var shopUpgrades: Node = get_node("../Views/Shop/Control/ListOfUpgrades")
+@onready var currencyNode: Node = get_node("../Views/Menu/Header/Currency")
 var curencyYarn: LInt = LInt.new()#Shows only to the 100th whole and decimal
 var yarn: #Standard Currency
 	get:
 		return curencyYarn
 	set(value): 
 		curencyYarn.lint = value
-		
+	
+var canEarnSouls = false	
 var yarnSoul = 0 #Special Currency
+var totSouls = 0
+var numNextSoul = 0
+
 var currentBasket = 1 #Used to determin the current basket for the YarnClicker View
 var maxBaskets = 1
 
@@ -15,7 +21,8 @@ var lastAutoClick = 0
 var goldenBallonCount = 0
 
 func _ready():
-	#yarn = str(1.00 * (10 ** 63))
+	yarn = "1"#str(1.00 * (10 ** 7))
+	get_node("../Views/Menu/Header/Currency").text = str("Yarn: ", yarn.ToDisplayValue())
 	pass
 
 func _process(delta):	
@@ -23,9 +30,6 @@ func _process(delta):
 	
 	if(lastAutoClick < 1):
 		return
-		
-	var shopUpgrades = get_node("../Views/Shop/Control/ListOfUpgrades")
-	shopUpgrades.MulChanged(true)#Live update the Shop Multiplyer
 		
 	lastAutoClick = 0
 	var count = 1
@@ -41,58 +45,33 @@ func _process(delta):
 	
 func CalcManualClick():	
 	var upgradeHelper = get_node(str("../Baskets/Basket", 1))
-	var earned = upgradeHelper.cursor.GetGenerationAmount()
+	var earned = upgradeHelper.cursor[0].GetGenerationAmount()
 	
 	CalcYarnEarned(earned)
 	pass
 	
 func CalcYarnEarned(earned):
-	var yarnHit = 1#(upgradeHelper.multiStrikeLevel + 1
+	var upgradeHelper = get_node(str("../Baskets/Basket", currentBasket))
+	var yarnHit = upgradeHelper.modifications[0].ammount + 1
 	
-	earned *= yarnHit
+	earned[0] *= yarnHit
 	
 	if(goldenBallonCount > 0):
 		earned *= (10 ** goldenBallonCount)
 		pass
-	
-	var listEarned = [earned]
-	
-	yarn.Add(listEarned)
-	get_node("../Views/Menu/Header/Currency").text = str("Yarn: ", yarn.lint)
-	
-	YarnPopped(yarnHit)
-	pass
 
-func YarnPopped(yarnHit):
-	var upgradeHelper = get_node(str("../Baskets/Basket", currentBasket))
+	yarn.Add(earned)
+	CalcSouls(earned)
+	shopUpgrades.MulChanged(true)#Live update the Shop Multiplyer
+	currencyNode.text = str("Yarn: ", yarn.lint)
 	
-	#change the on screen yarn
-	var alreadyPopped = []
-	
-	for count in yarnHit:
-		var rng = GetRandNum(yarnHit)
-		 
-		while(upgradeHelper.yarnInBasket.has(rng)):
-			rng = GetRandNum(yarnHit)
-			
-		alreadyPopped.append(rng)
-		
-		upgradeHelper.yarnInBasket[rng-1] -= 1
-		
-		pass
+	upgradeHelper.GenerateNewYarn(yarnHit)
 	pass
 	
+func CalcSouls(earned):
+	if numNextSoul <= 0:
+		yarnSoul += 1
+		numNextSoul = totSouls * (10 ** 10) + numNextSoul
+	
+	numNextSoul -= earned[0]
 	pass
-	
-func GetRandNum(max):
-	return RandomNumberGenerator.new().randi_range(0, max)
-	
-func test(number):
-	# how many places to move the zero.
-	var _exp = str(number).split(".")[0].length() - 1
-
-	# divide with same magnitude
-	var _dec = number / pow(10,_exp)
-
-	# print only what we want, add exp
-	print("{dec}e{exp}".format({"dec":("%1.2f" % _dec), "exp":str(_exp) }) )

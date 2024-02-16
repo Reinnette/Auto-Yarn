@@ -1,12 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://bn37kxinbcbli"]
+[gd_scene load_steps=13 format=3 uid="uid://bn37kxinbcbli"]
 
 [ext_resource type="Script" path="res://Scripts/ViewModels/ShopView.gd" id="1_8a47o"]
-[ext_resource type="Texture2D" uid="uid://dr0pefk5tadnn" path="res://img/yarn_yellow.png" id="2_32l8n"]
 [ext_resource type="PackedScene" uid="uid://dbnxp1fwqmss0" path="res://upgrade.tscn" id="2_dysxx"]
+[ext_resource type="Texture2D" uid="uid://dr0pefk5tadnn" path="res://img/Yarn/yarn_yellow.png" id="2_sv7fn"]
 [ext_resource type="Script" path="res://Scripts/T_I18n.gd" id="3_2rqsg"]
-[ext_resource type="Texture2D" uid="uid://7x2kwq5aah6j" path="res://img/yarn_teal.png" id="3_cbnsn"]
-[ext_resource type="Texture2D" uid="uid://eghhpk6guik3" path="res://img/yarn_purple.png" id="4_3cm5g"]
-[ext_resource type="Texture2D" uid="uid://bmo4cer2rl6dh" path="res://img/yarn_red.png" id="7_fde7c"]
+[ext_resource type="Texture2D" uid="uid://if0kb84w7wdb" path="res://img/Yarn Pressed/yarn_yellow_pressed.png" id="3_lqps8"]
+[ext_resource type="Texture2D" uid="uid://bgkeaqlpugvpb" path="res://img/yarn_disabled.png" id="4_lnjv7"]
+[ext_resource type="Texture2D" uid="uid://7x2kwq5aah6j" path="res://img/Yarn/yarn_teal.png" id="5_wntem"]
+[ext_resource type="Texture2D" uid="uid://blrbnver440nt" path="res://img/Yarn Pressed/yarn_teal_pressed.png" id="6_v2ccw"]
+[ext_resource type="Texture2D" uid="uid://eghhpk6guik3" path="res://img/Yarn/yarn_purple.png" id="7_n8rfw"]
+[ext_resource type="Texture2D" uid="uid://blx460ekm6bbd" path="res://img/Yarn Pressed/yarn_purple_pressed.png" id="8_mcxob"]
+[ext_resource type="Texture2D" uid="uid://bmo4cer2rl6dh" path="res://img/Yarn/yarn_red.png" id="11_mlf2u"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_enr35"]
 font_color = Color(0, 0, 0, 1)
@@ -60,7 +64,9 @@ script = ExtResource("3_2rqsg")
 [node name="TextureButton" type="TextureButton" parent="Control/UpgradeTypes"]
 layout_mode = 2
 size_flags_horizontal = 3
-texture_normal = ExtResource("2_32l8n")
+texture_normal = ExtResource("2_sv7fn")
+texture_pressed = ExtResource("3_lqps8")
+texture_disabled = ExtResource("4_lnjv7")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -80,7 +86,9 @@ script = ExtResource("3_2rqsg")
 [node name="TextureButton2" type="TextureButton" parent="Control/UpgradeTypes"]
 layout_mode = 2
 size_flags_horizontal = 3
-texture_normal = ExtResource("3_cbnsn")
+texture_normal = ExtResource("5_wntem")
+texture_pressed = ExtResource("6_v2ccw")
+texture_disabled = ExtResource("4_lnjv7")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -100,7 +108,9 @@ script = ExtResource("3_2rqsg")
 [node name="TextureButton3" type="TextureButton" parent="Control/UpgradeTypes"]
 layout_mode = 2
 size_flags_horizontal = 3
-texture_normal = ExtResource("4_3cm5g")
+texture_normal = ExtResource("7_n8rfw")
+texture_pressed = ExtResource("8_mcxob")
+texture_disabled = ExtResource("4_lnjv7")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -202,7 +212,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_fde7c")
+texture = ExtResource("11_mlf2u")
 expand_mode = 1
 stretch_mode = 1
 flip_h = true
@@ -220,7 +230,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_fde7c")
+texture = ExtResource("11_mlf2u")
 expand_mode = 1
 stretch_mode = 1
 
@@ -237,7 +247,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_fde7c")
+texture = ExtResource("11_mlf2u")
 expand_mode = 1
 stretch_mode = 1
 
@@ -254,7 +264,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_fde7c")
+texture = ExtResource("11_mlf2u")
 expand_mode = 1
 stretch_mode = 1
 
@@ -272,7 +282,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_fde7c")
+texture = ExtResource("11_mlf2u")
 expand_mode = 1
 stretch_mode = 1
 

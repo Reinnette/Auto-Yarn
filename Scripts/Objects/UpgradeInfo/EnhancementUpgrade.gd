@@ -13,8 +13,12 @@ var multiplyer: int #How much more the clicker will produce
 
 func _init(_baseCost, _costExpnt):
 	baseCost = str(_baseCost)
-	costExpnt = _costExpnt
+
+	for count in _costExpnt:
+		baseCost += "0"
+	
 	type = upgrades.Enhancement
+	multiplyer = 100
 	pass
 
 func GetCost(shopMul, mul = 1):
@@ -22,7 +26,14 @@ func GetCost(shopMul, mul = 1):
 	return CalcUpgradeCost(ammount, baseCost, mul, shopMul)
 
 func GetMul():
-	return (multiplyer - 100) / 20
+	return (multiplyer - 100) / 20 + 1
 	
-func UpgradeTrigger():
+func UpgradeTrigger(currentYarn, mul = 1, shopMul = 1):
+	var cost = GetCost(shopMul, mul)
+	if(!currentYarn.IsGreaterThan(cost)):
+		return 0
+	
 	multiplyer += 20
+	cost = GetCost(shopMul, mul)
+	upgradeNode.get_node("Cost").text = str(m_i18nNode.GetI81nT("T_Cost"), cost)
+	return cost

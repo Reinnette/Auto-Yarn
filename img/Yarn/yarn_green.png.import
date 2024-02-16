@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cly011bteisvx"
-path="res://.godot/imported/Basket.png-476f7bf26368368d42ea1ca8bf5133c0.ctex"
+uid="uid://ct0ylem1sf10h"
+path="res://.godot/imported/yarn_green.png-7a0b57bd68d2f0bc3ed6c4bf2dc81834.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/Basket.png"
-dest_files=["res://.godot/imported/Basket.png-476f7bf26368368d42ea1ca8bf5133c0.ctex"]
+source_file="res://img/Yarn/yarn_green.png"
+dest_files=["res://.godot/imported/yarn_green.png-7a0b57bd68d2f0bc3ed6c4bf2dc81834.ctex"]
 
 [params]
 

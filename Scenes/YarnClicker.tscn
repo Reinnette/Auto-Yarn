@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://boc3kpbx6o7td"]
+[gd_scene load_steps=6 format=3 uid="uid://boc3kpbx6o7td"]
 
+[ext_resource type="Texture2D" uid="uid://cnskughnaj7hg" path="res://img/Basket/BasketTop.png" id="1_sdxe6"]
 [ext_resource type="Script" path="res://Scenes/ManualClick.gd" id="1_sna7n"]
-[ext_resource type="Texture2D" uid="uid://cnskughnaj7hg" path="res://img/BasketTop.png" id="2_evdvq"]
+[ext_resource type="Material" uid="uid://ddbc05mfi72ub" path="res://Yarn Ball.tres" id="2_7v1id"]
+[ext_resource type="Texture2D" uid="uid://8vrcosgy2k0q" path="res://img/Basket/BasketBottom.png" id="3_78trv"]
 [ext_resource type="Texture2D" uid="uid://diafkmfwqeiou" path="res://img/YarnBall.png" id="3_pafrk"]
-[ext_resource type="Texture2D" uid="uid://8vrcosgy2k0q" path="res://img/BasketBottom.png" id="4_hthoj"]
 
 [node name="YarnClicker" type="Node2D"]
 
@@ -25,12 +26,13 @@ offset_right = -5.0
 offset_bottom = 308.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_evdvq")
+texture = ExtResource("1_sdxe6")
 expand_mode = 1
 stretch_mode = 4
 
 [node name="Yarn" type="TextureRect" parent="Control"]
 z_index = -3
+material = ExtResource("2_7v1id")
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -55,7 +57,7 @@ offset_right = -5.0
 offset_bottom = 308.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_hthoj")
+texture = ExtResource("3_78trv")
 expand_mode = 1
 stretch_mode = 4
 

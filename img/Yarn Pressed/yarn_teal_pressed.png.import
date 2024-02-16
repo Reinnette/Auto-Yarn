@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ct0ylem1sf10h"
-path="res://.godot/imported/yarn_green.png-1e38492e5a4236a08241979848329116.ctex"
+uid="uid://blrbnver440nt"
+path="res://.godot/imported/yarn_teal_pressed.png-059e35f6d72296fe5a2078d9b8761c53.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/yarn_green.png"
-dest_files=["res://.godot/imported/yarn_green.png-1e38492e5a4236a08241979848329116.ctex"]
+source_file="res://img/Yarn Pressed/yarn_teal_pressed.png"
+dest_files=["res://.godot/imported/yarn_teal_pressed.png-059e35f6d72296fe5a2078d9b8761c53.ctex"]
 
 [params]
 

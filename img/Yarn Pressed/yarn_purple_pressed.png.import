@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clwcjhha3fngu"
-path="res://.godot/imported/yarn.png-c6ae7fd43524d03cc168facff9fd188f.ctex"
+uid="uid://blx460ekm6bbd"
+path="res://.godot/imported/yarn_purple_pressed.png-655c26827a427be6670a0132af92aa63.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/yarn.png"
-dest_files=["res://.godot/imported/yarn.png-c6ae7fd43524d03cc168facff9fd188f.ctex"]
+source_file="res://img/Yarn Pressed/yarn_purple_pressed.png"
+dest_files=["res://.godot/imported/yarn_purple_pressed.png-655c26827a427be6670a0132af92aa63.ctex"]
 
 [params]
 

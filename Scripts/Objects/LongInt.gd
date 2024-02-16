@@ -3,11 +3,14 @@ extends Node
 class_name LInt
 
 var lint: String = ""
+const intSizeNames = ["M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non", "Dec", "Undec",
+					"Duodec", "Tredec", "Quattuordec", "Quindec", "Sexdec", "Septendec", "Octodec", 
+					"Novemdec", "Vigint", "Cent"]
 
 #Max amount each List<int> can be
 #We take 1 for if theres a digit added to the front
 #Then 2 for if theres a decimal added
-var intMaxChar = 19 - 3#9223372036854775807
+var intMaxChar = 19 - 3#9,223,372,036,854,775,807
 	
 func Add(value):
 	var curs = makeArraysEqual(ConvertToInts(), value)
@@ -72,17 +75,17 @@ func Mul(value):
 	
 	for count in listInts.size():
 		#If the value is greater than
-		if(listInts[count] > 10 ** intMaxChar && count != 0):
-			listInts[count] -= (10 ** (intMaxChar+1))
-			listInts[count - 1] += 1
+		if(listInts[count] > 10.00 ** intMaxChar && count != 0):
+			listInts[count] -= (10.00 ** (intMaxChar+1))
+			listInts[count - 1] += 1.00
 			
 		#If the value isnt the last in the list and has a decimal
 		#Remove the decimal and add the amount to the next row
 		if(str(listInts[count]).find(".") && count != listInts.size()-1):
-			var dec = listInts[count] - floor(listInts[count])
-			var toAdd = dec * 10 ** intMaxChar
+			var dec = listInts[count] - listInts[count]
+			var toAdd = dec * 10.00 ** intMaxChar
 			
-			listInts[count] = floor(listInts[count])
+			listInts[count] = listInts[count]
 			listInts[count+1] += toAdd
 			pass
 		pass
@@ -120,13 +123,13 @@ func ConvertToInts():
 	var segments = lint.length() / intMaxChar
 	
 	if segments == 0:
-		curList.append(int(lint))
+		curList.append(float(lint))
 	
 	for currency in segments:
 		var startPos = (count - 1) * intMaxChar
 		var length = intMaxChar * count
 		var subCur = lint.substr(startPos, length)
-		curList.append(int(subCur))
+		curList.append(float(subCur))
 		count += 1
 	
 	return curList
@@ -184,3 +187,40 @@ func IsGreaterThan(array2: Array, array1 = ConvertToInts()):
 	
 func Round(value):
 	return round(value * pow(10.0, 2)) / pow(10.0, 2)
+
+
+#Converts the string value into a more managable form to be seen by the user
+func ToDisplayValue():
+	if lint == "0":
+		return "0"
+	
+	#Get the number scale 
+	var pos: float
+	pos = str(floor(float(lint))).length() / 3.00
+	
+	#If the number is bellow 1millon return the number
+	if(pos <= 2):
+		return str(lint)
+	
+	var sufix = "illion"
+	var prefix = intSizeNames[ceil(pos)-3]
+	var numName = str(prefix, sufix)
+	var mod = fmod(pos, 3.00)
+	
+	var len = 6#100
+	#If the pos is not divisable by 3 then calculate where to split
+	if mod != 0:
+		var val = str(mod).substr(2, 1)
+		if val == "6":
+			len = 5#10
+			pass
+		elif val == "3":
+			len = 4#1
+			pass
+		
+	var number = lint.substr(0, len)
+	var inPos = 6-len
+	
+	return str(number, " ", numName).insert(3 - inPos, ".")
+	
+	pass
