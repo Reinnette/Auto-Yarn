@@ -6,12 +6,12 @@ extends Control
 @onready var m_I18n: Node = get_node(str(rootNode, "/I18n"))
 @onready var m_I18nScript = load("res://Scripts/T_I18n.gd")
 
-var m_isSell = false
+var m_isSell = [false]
 var isSell:
 	get:
-		return m_isSell
+		return m_isSell[0]
 	set(value):
-		m_isSell = value
+		m_isSell[0] = value
 		get_node("../Multiplyers/Sell").text = m_I18n.GetI81nT("T_Buy") if isSell else m_I18n.GetI81nT("T_Sell")
 	
 var currentMul = 1
@@ -61,9 +61,11 @@ func GenerateClickers():
 		var node = GenerateUpgrade(newChild, str(type, indexId), indexId, clickerInfo.type)
 		if indexId == 0:
 			m_upgradeHelper.cursor[indexId].upgradeNode = node
+			m_upgradeHelper.cursor[indexId].isSell = m_isSell
 			m_upgradeHelper.cursor[indexId].Connect(refreshSignal, m_I18n)
 		else:
 			upgradeList[indexId-1].upgradeNode = node
+			upgradeList[indexId-1].isSell = m_isSell
 			upgradeList[indexId-1].Connect(refreshSignal, m_I18n)
 		pass
 	pass
@@ -84,6 +86,7 @@ func GenerateUpgrades():
 		var node = GenerateUpgrade(newChild, name, indexId, enhancmentsInfo.type)
 		
 		upgradeList[indexId].upgradeNode = node
+		upgradeList[indexId].isSell = m_isSell
 		upgradeList[indexId].Connect(refreshSignal, m_I18n)
 		pass
 	pass
@@ -102,6 +105,7 @@ func GenerateModifications():
 		var node = GenerateUpgrade(newChild, str(modInfo.type, indexId), indexId, modInfo.type)
 		
 		upgradeList[indexId].upgradeNode = node
+		upgradeList[indexId].isSell = m_isSell
 		upgradeList[indexId].Connect(refreshSignal, m_I18n)
 		pass
 	pass
@@ -136,17 +140,23 @@ func UpgradeButtonPressed(id, upgradeType):
 	var cost
 	if isSell:
 		if upgradeType == m_upgradeHelper.clickers[0].type:
-			if(m_upgradeHelper.clickers[id].ammount == 0):
-				return
-			
-			cost = m_upgradeHelper.clickers[id].DecAmount(m_upgradeHelper.multiplayer, selectedMul, m_gameController.yarn)
+			if(id == 0):
+				if(m_upgradeHelper.cursor[id].ammount == 0):
+					return
+				
+				cost = m_upgradeHelper.cursor[id].DecAmount(m_upgradeHelper.multiplyer, selectedMul, m_gameController.yarn)
+			else:
+				if(m_upgradeHelper.clickers[id].ammount == 0):
+					return
+				
+				cost = m_upgradeHelper.clickers[id].DecAmount(m_upgradeHelper.multiplyer, selectedMul, m_gameController.yarn)
 			m_gameController.yarn.Add(cost)
 	else:	
 		if upgradeType == m_upgradeHelper.clickers[0].type:
 			if id == 0:
-				cost = m_upgradeHelper.cursor[id].UpgradeTrigger(m_gameController.yarn, selectedMul, m_upgradeHelper.multiplayer)
+				cost = m_upgradeHelper.cursor[id].UpgradeTrigger(m_gameController.yarn, selectedMul, m_upgradeHelper.multiplyer)
 			else:
-				m_upgradeHelper.clickers[id-1].UpgradeTrigger(m_gameController.yarn, selectedMul, m_upgradeHelper.multiplayer)
+				m_upgradeHelper.clickers[id-1].UpgradeTrigger(m_gameController.yarn, selectedMul, m_upgradeHelper.multiplyer)
 		elif upgradeType == m_upgradeHelper.enhancments[0].type:
 			m_upgradeHelper.enhancments[id].UpgradeTrigger()
 			pass

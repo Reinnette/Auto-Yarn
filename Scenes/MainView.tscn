@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bn37kxinbcbli" path="res://Scenes/Shop.tscn" id="3_g07dt"]
 [ext_resource type="PackedScene" uid="uid://drnsmxk56qg13" path="res://Scenes/Settings.tscn" id="4_g48k8"]
 [ext_resource type="Script" path="res://Scripts/Helpers/UpgradeHelper.gd" id="5_hn8uk"]
-[ext_resource type="Script" path="res://Scripts/Helpers/GameController.gd" id="6_bfrjk"]
+[ext_resource type="Script" path="res://Scripts/GameController.gd" id="6_bfrjk"]
 
 [node name="MainView" type="Node2D"]
 

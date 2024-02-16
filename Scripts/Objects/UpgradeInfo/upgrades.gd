@@ -18,10 +18,16 @@ func GetAmount():
 func IncAmount(mul = 1):
 	ammount += 1 * mul
 
-func DecAmount(shopMul, selectedMul, currentYarn):
+func DecAmount(shopMul: int, selectedMul: int, currentYarn: LInt):
+	print(str("Dec", isSell[0]))
 	ammount -= 1 * GetMultiplyer(shopMul, selectedMul, currentYarn)
+	
+	var cost = GetCost(shopMul, GetMultiplyer(shopMul, selectedMul, currentYarn))
+	UpdateText(cost, currentYarn)
+	return cost
 
 func UpgradeTrigger(currentYarn: LInt, selectedMul: int = 1, shopMul: int = 1):
+	print(str("Buy", isSell[0]))
 	var cost = GetCost(shopMul, GetMultiplyer(shopMul, selectedMul, currentYarn))
 	if(!currentYarn.IsGreaterThan(cost)):
 		return 0

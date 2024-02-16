@@ -1,7 +1,7 @@
 extends Node
 
-var multiplyer = 1
-var yarnInBasket = [1]#The Yarn on screen and the level of the yarn
+var multiplyer: int = 1
+var yarnInBasket: Array = [1]#The Yarn on screen and the level of the yarn
 
 var cursor = [ClickerUpgrade.new(10, 		0, 	1,	0) #Hand
 	]
