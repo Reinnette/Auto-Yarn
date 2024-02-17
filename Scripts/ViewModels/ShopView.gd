@@ -135,40 +135,6 @@ func SwapUpgrades(id):
 	get_child(id).visible = true
 	isSell = false
 	pass
-
-func UpgradeButtonPressed(id, upgradeType):
-	var cost
-	if isSell:
-		if upgradeType == m_upgradeHelper.clickers[0].type:
-			if(id == 0):
-				if(m_upgradeHelper.cursor[id].ammount == 0):
-					return
-				
-				cost = m_upgradeHelper.cursor[id].DecAmount(m_upgradeHelper.multiplyer, selectedMul, m_gameController.yarn)
-			else:
-				if(m_upgradeHelper.clickers[id].ammount == 0):
-					return
-				
-				cost = m_upgradeHelper.clickers[id].DecAmount(m_upgradeHelper.multiplyer, selectedMul, m_gameController.yarn)
-			m_gameController.yarn.Add(cost)
-	else:	
-		if upgradeType == m_upgradeHelper.clickers[0].type:
-			if id == 0:
-				cost = m_upgradeHelper.cursor[id].UpgradeTrigger(m_gameController.yarn, selectedMul, m_upgradeHelper.multiplyer)
-			else:
-				m_upgradeHelper.clickers[id-1].UpgradeTrigger(m_gameController.yarn, selectedMul, m_upgradeHelper.multiplyer)
-		elif upgradeType == m_upgradeHelper.enhancments[0].type:
-			m_upgradeHelper.enhancments[id].UpgradeTrigger()
-			pass
-		elif upgradeType == m_upgradeHelper.modifications[0].type:
-			m_upgradeHelper.modifications[id].UpgradeTrigger()
-			pass
-			
-		m_gameController.yarn.Minus(cost)
-		pass
-		
-	m_gameController.yarn = m_gameController.yarn.lint
-	pass
 #endregion
 
 #region Shop Multiplyer Buttons

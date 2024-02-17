@@ -21,7 +21,7 @@ func _init(_baseCost, _costExpnt):
 	multiplyer = 100
 	pass
 
-func GetCost(shopMul, mul = 1):
+func GetCost(shopMul, mul = 1, isDec: bool = false):
 	var newMul = 1.1 * ((mul + 1) * 1.1)
 	return CalcUpgradeCost(ammount, baseCost, mul, shopMul)
 

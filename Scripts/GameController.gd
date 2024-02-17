@@ -6,8 +6,6 @@ var curencyYarn: LInt = LInt.new()#Shows only to the 100th whole and decimal
 var yarn: #Standard Currency
 	get:
 		return curencyYarn
-	set(value): 
-		curencyYarn.lint = value
 	
 var canEarnSouls = false	
 var yarnSoul = 0 #Special Currency
@@ -21,7 +19,7 @@ var lastAutoClick = 0
 var goldenBallonCount = 0
 
 func _ready():
-	yarn = "1"#str(1.00 * (10 ** 7))
+	yarn.Add([1])#str(1.00 * (10 ** 7))
 	get_node("../Views/Menu/Header/Currency").text = str("Yarn: ", yarn.ToDisplayValue())
 	pass
 
@@ -34,7 +32,7 @@ func _process(delta):
 	lastAutoClick = 0
 	var count = 1
 	while count <= maxBaskets:
-		var upgradeHelper = get_node(str("../Baskets/Basket", count))
+		var upgradeHelper = GetUpgradeHelper(count)
 		if(upgradeHelper.HaveAutoClicker()):#No need to process automated values if we are not "auto clicking"
 			var yps = upgradeHelper.GetBasketYPS()
 			CalcYarnEarned(yps)
@@ -44,14 +42,14 @@ func _process(delta):
 	pass
 	
 func CalcManualClick():	
-	var upgradeHelper = get_node(str("../Baskets/Basket", 1))
+	var upgradeHelper = GetUpgradeHelper(1)
 	var earned = upgradeHelper.cursor[0].GetGenerationAmount()
 	
 	CalcYarnEarned(earned)
 	pass
 	
 func CalcYarnEarned(earned):
-	var upgradeHelper = get_node(str("../Baskets/Basket", currentBasket))
+	var upgradeHelper = GetUpgradeHelper(currentBasket)
 	var yarnHit = upgradeHelper.modifications[0].ammount + 1
 	
 	earned[0] *= yarnHit
@@ -75,3 +73,6 @@ func CalcSouls(earned):
 	
 	numNextSoul -= earned[0]
 	pass
+	
+func GetUpgradeHelper(basketNum: int):
+	return get_node(str("../Baskets/Basket", basketNum))

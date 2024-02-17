@@ -78,7 +78,7 @@ func RunYarnEvolution():
 	#Time to spiral into madness
 	
 	var gameController = find_parent("MainView").get_child(2)
-	gameController.yarn = "0"
+	gameController.yarn.Minus(gameController.yarn.ConvertToInts())
 	gameController.canEarnSouls = true
 	gameController.yarnSouls += (modifications[4].ammount+1) * 1000
 	pass
